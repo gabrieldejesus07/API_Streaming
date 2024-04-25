@@ -1,5 +1,6 @@
 package br.com.gabriel.screenmatch;
 
+import br.com.gabriel.screenmatch.service.ConsumoApi;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +14,8 @@ public class ScreenmatchApplication implements CommandLineRunner {
 
 	@java.lang.Override
 	public void run(java.lang.String... args) throws Exception {
-		System.out.println("Primeiro projeto spring sem web");
+		var consumoApi = new ConsumoApi();
+		var json = consumoApi.obterDador("https://www.omdbapi.com/?t=gilmore+girls&apikey=6585022c");
+		System.out.println(json);
 	}
 }
