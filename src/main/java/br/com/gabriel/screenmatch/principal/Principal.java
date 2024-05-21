@@ -11,8 +11,8 @@ import java.util.Scanner;
 
 public class Principal {
 
-    private final String ENDERECO = "https://www.omdbapi.com/?t=";
-    private final String API_KEY = "&apikey=6585022c";
+    private final String ENDERECO = "http://www.omdbapi.com/?t=";
+    private final String API_KEY = "&apikey=e06fa32a";
 
     private Scanner leitura = new Scanner(System.in);
     private ConsumoApi consumo = new ConsumoApi();
@@ -27,15 +27,14 @@ public class Principal {
 
         List<DadosTemporada> temporadas = new ArrayList<>();
 
-		for (int i = 0; i <= dados.totalTemporadas(); i++) {
+		for (int i = 1; i <= dados.totalTemporadas(); i++) {
 			json = consumo.obterDador(ENDERECO + nomeSerie.replace(" ", "+") +"&season=" + i + API_KEY);
 			DadosTemporada dadosTemporada = conversor.obterDados(json, DadosTemporada.class);
 			temporadas.add(dadosTemporada);
 		}
 		temporadas.forEach(System.out::println);
 
-
-
+        temporadas.forEach(t -> t.episodios().forEach(e -> System.out.println(e.titulo())));
 
     }
 }
