@@ -1,13 +1,16 @@
 package br.com.gabriel.screenmatch.principal;
 
+import br.com.gabriel.screenmatch.model.DadosEpisodio;
 import br.com.gabriel.screenmatch.model.DadosSerie;
 import br.com.gabriel.screenmatch.service.ConsumoApi;
 import br.com.gabriel.screenmatch.service.ConverteDados;
 import br.com.gabriel.screenmatch.model.DadosTemporada;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Principal {
 
@@ -35,6 +38,17 @@ public class Principal {
 		temporadas.forEach(System.out::println);
 
         temporadas.forEach(t -> t.episodios().forEach(e -> System.out.println(e.titulo())));
+
+        List<DadosEpisodio> dadosEpisodios = temporadas.stream()
+                .flatMap(t -> t.episodios().stream())
+                .collect(Collectors.toList());
+
+        System.out.println("\nTop 5 Episódios");
+        dadosEpisodios.stream()
+                .filter(e -> !e.avaliacao().equalsIgnoreCase("N/A"))
+                .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
+                .limit(5)
+                .forEach(System.out::println);
 
     }
 }
