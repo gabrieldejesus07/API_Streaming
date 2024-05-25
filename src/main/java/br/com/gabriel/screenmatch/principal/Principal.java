@@ -2,6 +2,7 @@ package br.com.gabriel.screenmatch.principal;
 
 import br.com.gabriel.screenmatch.model.DadosEpisodio;
 import br.com.gabriel.screenmatch.model.DadosSerie;
+import br.com.gabriel.screenmatch.model.Episodio;
 import br.com.gabriel.screenmatch.service.ConsumoApi;
 import br.com.gabriel.screenmatch.service.ConverteDados;
 import br.com.gabriel.screenmatch.model.DadosTemporada;
@@ -49,6 +50,13 @@ public class Principal {
                 .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
                 .limit(5)
                 .forEach(System.out::println);
+
+        List<Episodio> episodios = temporadas.stream()
+                .flatMap(t -> t.episodios().stream()
+                        .map(d -> new Episodio(t.numero(), d))
+                ).collect(Collectors.toList());
+
+        episodios.forEach(System.out::println);
 
     }
 }
